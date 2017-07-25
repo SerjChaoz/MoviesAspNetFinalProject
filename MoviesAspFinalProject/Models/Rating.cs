@@ -8,22 +8,28 @@ namespace MoviesAspFinalProject.Models
 
     public partial class Rating
     {
+
+        [Key]
         public string RatingId { get; set; }
 
         [Required]
+        [Display(Name = "User")]
         [StringLength(128)]
         public string UserId { get; set; }
+        public virtual AspNetUser User { get; set; }
 
         [Required]
         [StringLength(128)]
         public string MovieId { get; set; }
+        public virtual Movie Movie { get; set; }
 
         public decimal MovieRating { get; set; }
 
+        [Display(Name = "Create Date")]
         public DateTime CreateDate { get; set; }
 
+        [Display(Name = "Edit Date")]
         public DateTime EditDate { get; set; }
-
-        public virtual Movie Movy { get; set; }
+      
     }
 }

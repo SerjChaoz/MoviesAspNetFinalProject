@@ -22,14 +22,17 @@ namespace MoviesAspFinalProject.Models
         [StringLength(250)]
         public string Name { get; set; }
 
+        [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
         [Required]
         [StringLength(128)]
         public string Budget { get; set; }
 
+        [Display(Name = "Create Date")]
         public DateTime CreateDate { get; set; }
 
+        [Display(Name = "Edit Date")]
         public DateTime EditDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

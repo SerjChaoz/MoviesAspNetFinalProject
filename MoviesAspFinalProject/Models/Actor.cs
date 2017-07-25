@@ -14,14 +14,17 @@ namespace MoviesAspFinalProject.Models
             Roles = new HashSet<Role>();
         }
 
+        [Key]
         public string ActorId { get; set; }
 
         [Required]
         [StringLength(250)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(250)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         public int Age { get; set; }
@@ -30,10 +33,13 @@ namespace MoviesAspFinalProject.Models
         [StringLength(128)]
         public string Gender { get; set; }
 
+        [Display(Name = "Has Oskar")]
         public bool HasOskar { get; set; }
 
+        [Display(Name = "Create Date")]
         public DateTime CreateDate { get; set; }
 
+        [Display(Name = "Edit Date")]
         public DateTime EditDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

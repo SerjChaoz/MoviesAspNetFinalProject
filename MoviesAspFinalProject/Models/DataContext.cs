@@ -8,7 +8,7 @@ namespace MoviesAspFinalProject.Models
     public partial class DataContext : DbContext
     {
         public DataContext()
-            : base("name=DataContext")
+            : base("name=DefaultConnection")
         {
         }
 
@@ -16,12 +16,13 @@ namespace MoviesAspFinalProject.Models
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Movie>()
                 .HasMany(e => e.Ratings)
-                .WithRequired(e => e.Movy)
+                .WithRequired(e => e.Movie)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Rating>()
