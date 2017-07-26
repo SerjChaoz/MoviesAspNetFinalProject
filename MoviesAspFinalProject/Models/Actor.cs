@@ -8,13 +8,12 @@ namespace MoviesAspFinalProject.Models
 
     public partial class Actor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Actor()
         {
-            Roles = new HashSet<Role>();
         }
 
         [Key]
+        [DatabaseGenerated(databaseGeneratedOption:DatabaseGeneratedOption.Identity)]
         public string ActorId { get; set; }
 
         [Required]
@@ -27,9 +26,11 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Age")]
         public int Age { get; set; }
 
         [Required]
+        [Display(Name = "Gender")]
         [StringLength(128)]
         public string Gender { get; set; }
 
@@ -37,12 +38,19 @@ namespace MoviesAspFinalProject.Models
         public bool HasOskar { get; set; }
 
         [Display(Name = "Create Date")]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; }
+        public DateTime EditDate { get; set; } = DateTime.UtcNow;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Role> Roles { get; set; }
+        [Display(Name = "Roles")]
+        [InverseProperty("Actor")]
+        public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", FirstName, LastName);
+        }
     }
 }

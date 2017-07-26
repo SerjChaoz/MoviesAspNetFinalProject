@@ -10,6 +10,7 @@ namespace MoviesAspFinalProject.Models
     {
 
         [Key]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public string RatingId { get; set; }
 
         [Required]
@@ -23,13 +24,15 @@ namespace MoviesAspFinalProject.Models
         public string MovieId { get; set; }
         public virtual Movie Movie { get; set; }
 
+        [Display(Name = "Movie Rating")]
         public decimal MovieRating { get; set; }
 
         [Display(Name = "Create Date")]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; }
+        public DateTime EditDate { get; set; } = DateTime.UtcNow;
       
     }
 }

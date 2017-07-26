@@ -21,6 +21,16 @@ namespace MoviesAspFinalProject.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Movie>()
+                .HasMany(e => e.Roles)
+                .WithRequired(e => e.Movie)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Actor>()
+                .HasMany(e => e.Roles)
+                .WithRequired(e => e.Actor)
+                .WillCascadeOnDelete(false); 
+
+            modelBuilder.Entity<Movie>()
                 .HasMany(e => e.Ratings)
                 .WithRequired(e => e.Movie)
                 .WillCascadeOnDelete(false);

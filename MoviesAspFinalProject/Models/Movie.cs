@@ -8,17 +8,16 @@ namespace MoviesAspFinalProject.Models
 
     public partial class Movie
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Movie()
         {
-            Roles = new HashSet<Role>();
-            Ratings = new HashSet<Rating>();
         }
 
         [Key]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public string MovieId { get; set; }
 
         [Required]
+        [Display(Name = "Movie Name")]
         [StringLength(250)]
         public string Name { get; set; }
 
@@ -26,19 +25,28 @@ namespace MoviesAspFinalProject.Models
         public DateTime ReleaseDate { get; set; }
 
         [Required]
+        [Display(Name = "Budget")]
         [StringLength(128)]
         public string Budget { get; set; }
 
         [Display(Name = "Create Date")]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; }
+        public DateTime EditDate { get; set; } = DateTime.UtcNow;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Role> Roles { get; set; }
+        [Display(Name = "Roles")]
+        [InverseProperty("Movie")]
+        public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rating> Ratings { get; set; }
+        [Display(Name = "Ratings")]
+        [InverseProperty("Movie")]
+        public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
+
+        public override string ToString()
+        {
+            return String.Format("{0}", Name);
+        }
     }
 }

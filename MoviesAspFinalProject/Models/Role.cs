@@ -9,6 +9,7 @@ namespace MoviesAspFinalProject.Models
     public partial class Role
     {
         [Key]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public string RoleId { get; set; }
 
         [Required]
@@ -17,10 +18,11 @@ namespace MoviesAspFinalProject.Models
         public string RoleName { get; set; }
 
         [Display(Name = "Create Date")]
+        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; }
+        public DateTime EditDate { get; set; } = DateTime.UtcNow;
 
         [Required]
         [Display(Name = "Movie")]
@@ -37,5 +39,10 @@ namespace MoviesAspFinalProject.Models
 
         [ForeignKey("MovieId")]
         public virtual Movie Movie { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0}", RoleName);
+        }
     }
 }
