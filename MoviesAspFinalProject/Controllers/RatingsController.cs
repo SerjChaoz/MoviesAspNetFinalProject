@@ -40,7 +40,7 @@ namespace MoviesAspFinalProject.Controllers
         public ActionResult Create()
         {
             ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name");
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace MoviesAspFinalProject.Controllers
             }
 
             ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", rating.MovieId);
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", rating.UserId);
+            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", rating.UserId);
             return View(rating);
         }
 
@@ -76,7 +76,7 @@ namespace MoviesAspFinalProject.Controllers
                 return HttpNotFound();
             }
             ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", rating.MovieId);
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", rating.UserId);
+            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", rating.UserId);
             return View(rating);
         }
 
@@ -94,7 +94,7 @@ namespace MoviesAspFinalProject.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", rating.MovieId);
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", rating.UserId);
+            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", rating.UserId);
             return View(rating);
         }
 

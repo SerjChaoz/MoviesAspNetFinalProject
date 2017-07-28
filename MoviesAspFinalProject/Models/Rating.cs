@@ -17,7 +17,8 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "User")]
         [StringLength(128)]
         public string UserId { get; set; }
-        public virtual AspNetUser User { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         [StringLength(128)]

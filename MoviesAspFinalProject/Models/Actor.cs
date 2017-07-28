@@ -44,9 +44,9 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Edit Date")]
         public DateTime EditDate { get; set; } = DateTime.UtcNow;
 
-        [Display(Name = "Roles")]
+        [Display(Name = "Movies")]
         [InverseProperty("Actor")]
-        public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
+        public virtual ICollection<Role> Movies { get; set; } = new HashSet<Role>();
 
         public override string ToString()
         {

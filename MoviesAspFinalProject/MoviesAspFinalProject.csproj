@@ -189,14 +189,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707260007346_InitialCreate.cs" />
-    <Compile Include="Migrations\201707260007346_InitialCreate.Designer.cs">
-      <DependentUpon>201707260007346_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations.DataContext\201707280157442_InitialCreate.cs" />
+    <Compile Include="Migrations.DataContext\201707280157442_InitialCreate.Designer.cs">
+      <DependentUpon>201707280157442_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations.DataContext\201707280201063_AlterColumns.cs" />
+    <Compile Include="Migrations.DataContext\201707280201063_AlterColumns.Designer.cs">
+      <DependentUpon>201707280201063_AlterColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.DataContext\Configuration.cs" />
+    <Compile Include="Migrations.Identity\201707280156356_InitialCreate.cs" />
+    <Compile Include="Migrations.Identity\201707280156356_InitialCreate.Designer.cs">
+      <DependentUpon>201707280156356_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.Identity\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Actor.cs" />
-    <Compile Include="Models\AspNetUser.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -275,16 +283,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Movies\Create.cshtml" />
-    <Content Include="Views\Movies\Delete.cshtml" />
-    <Content Include="Views\Movies\Details.cshtml" />
-    <Content Include="Views\Movies\Edit.cshtml" />
-    <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\Actors\Create.cshtml" />
     <Content Include="Views\Actors\Delete.cshtml" />
     <Content Include="Views\Actors\Details.cshtml" />
     <Content Include="Views\Actors\Edit.cshtml" />
     <Content Include="Views\Actors\Index.cshtml" />
+    <Content Include="Views\Movies\Create.cshtml" />
+    <Content Include="Views\Movies\Delete.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
+    <Content Include="Views\Movies\Edit.cshtml" />
+    <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Delete.cshtml" />
     <Content Include="Views\Roles\Details.cshtml" />
@@ -306,8 +314,14 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707260007346_InitialCreate.resx">
-      <DependentUpon>201707260007346_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations.DataContext\201707280157442_InitialCreate.resx">
+      <DependentUpon>201707280157442_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.DataContext\201707280201063_AlterColumns.resx">
+      <DependentUpon>201707280201063_AlterColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.Identity\201707280156356_InitialCreate.resx">
+      <DependentUpon>201707280156356_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -21,8 +21,8 @@ namespace MoviesAspFinalProject.Models
         [StringLength(250)]
         public string Name { get; set; }
 
-        [Display(Name = "Release Date")]
-        public DateTime ReleaseDate { get; set; }
+        [Display(Name = "Release Year")]
+        public int ReleaseYear { get; set; }
 
         [Required]
         [Display(Name = "Budget")]
@@ -36,9 +36,9 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Edit Date")]
         public DateTime EditDate { get; set; } = DateTime.UtcNow;
 
-        [Display(Name = "Roles")]
+        [Display(Name = "Actors")]
         [InverseProperty("Movie")]
-        public virtual ICollection<Role> Roles { get; set; } = new HashSet<Role>();
+        public virtual ICollection<Role> Actors { get; set; } = new HashSet<Role>();
 
         [Display(Name = "Ratings")]
         [InverseProperty("Movie")]

@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviesAspFinalProject.Models
 {
@@ -16,6 +18,9 @@ namespace MoviesAspFinalProject.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        [InverseProperty("User")]
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

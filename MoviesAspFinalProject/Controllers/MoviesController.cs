@@ -46,7 +46,7 @@ namespace MoviesAspFinalProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MovieId,Name,ReleaseDate,Budget,CreateDate,EditDate")] Movie movie)
+        public ActionResult Create([Bind(Include = "MovieId,Name,ReleaseYear,Budget,CreateDate,EditDate")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace MoviesAspFinalProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MovieId,Name,ReleaseDate,Budget,CreateDate,EditDate")] Movie movie)
+        public ActionResult Edit([Bind(Include = "MovieId,Name,ReleaseYear,Budget,CreateDate,EditDate")] Movie movie)
         {
             if (ModelState.IsValid)
             {
