@@ -82,6 +82,10 @@ namespace MoviesAspFinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                // for ratings call SetRating() function here which should take string MovieId, int MovieRating as arguments
+
+
                 db.Entry(movie).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
