@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MoviesAspFinalProject.Models;
+using Microsoft.AspNet.Identity;
 
 namespace MoviesAspFinalProject.Controllers
 {
@@ -122,6 +123,19 @@ namespace MoviesAspFinalProject.Controllers
             db.Ratings.Remove(rating);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SetRating(string MovieId, int MovieRating)
+        {
+            Rating rating = new Rating();
+            rating.MovieId = MovieId;
+            rating.MovieRating = MovieRating;
+            rating.UserId = User.Identity.GetUserId();
+
+            db.Ratings.Add(rating);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Movies", new { id = MovieId });
         }
 
         protected override void Dispose(bool disposing)
