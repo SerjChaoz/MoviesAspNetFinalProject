@@ -35,6 +35,27 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Actors)
+        </dt>
+
+        <dd>
+            <ul>
+                @foreach (var item in Model.Actors)
+                {
+                    <li>@item.Actor.ToString() <p>Role Name: @item.ToString()</p></li>
+                }
+            </ul>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ratings)
+        </dt>
+
+        <dd id="@(Request.IsAuthenticated ? "RatingsControl" : "")">
+            @{ Html.RenderAction("RatingsControl", "Ratings", new { MovieId = Model.MovieId });}
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
 
@@ -49,10 +70,51 @@
         <dd>
             @Html.DisplayFor(model => model.EditDate)
         </dd>
-
+                
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieId }) |
+    @if (Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieId })
+        <span> | </span>
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function SetRatingControlCallBacks(e) {
+            var MovieRating = $("#RatingsControl a[name='MovieRating']");
+            MovieRating.on('click', SetRating);
+        }
+
+        function SetRating(e) {
+            var data = { MovieId: $(this).data("movieid"), MovieRating: $(this).data("movierating") };
+
+            $.post("@Url.Action("SetRating","Ratings")", data)
+                .done(function (response, status, jqxhr) {
+                    var url = "@Url.Action("RatingsControl","Ratings")";
+
+                    $("#RatingsControl").load(url, { MovieId: data.MovieId },
+                        function (responseText, statusText, xhr) {
+                            switch (statusText) {
+                                case "success":
+                                    SetRatingControlCallBacks();
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (responseText.length == 0) {
+                            }
+                        });
+
+                })
+                .fail(function (jqxhr, status, error) {
+                })
+        }
+
+        $(document).ready(SetRatingControlCallBacks);
+    </script>
+}

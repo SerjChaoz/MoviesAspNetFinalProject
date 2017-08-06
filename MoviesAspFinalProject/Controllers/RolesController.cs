@@ -10,11 +10,10 @@ using MoviesAspFinalProject.Models;
 
 namespace MoviesAspFinalProject.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
-        private DataContext db = new DataContext();
-
         // GET: Roles
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var roles = db.Roles.Include(r => r.Actor).Include(r => r.Movie);
@@ -22,6 +21,7 @@ namespace MoviesAspFinalProject.Controllers
         }
 
         // GET: Roles/Details/5
+        [AllowAnonymous]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -39,8 +39,8 @@ namespace MoviesAspFinalProject.Controllers
         // GET: Roles/Create
         public ActionResult Create()
         {
-            ViewBag.ActorId = new SelectList(db.Actors, "ActorId", "FirstName");
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name");
+            ViewBag.ActorId = new SelectList(db.Actors.OrderBy(x => x.LastName), "ActorId", "FullName");
+            ViewBag.MovieId = new SelectList(db.Movies.OrderByDescending(x => x.ReleaseYear), "MovieId", "Name");
             return View();
         }
 
@@ -49,17 +49,24 @@ namespace MoviesAspFinalProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RoleId,RoleName,CreateDate,EditDate,MovieId,ActorId")] Role role)
+        public ActionResult Create([Bind(Include = "RoleName,MovieId,ActorId")] Role role)
         {
             if (ModelState.IsValid)
             {
-                db.Roles.Add(role);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Role checkrole = db.Roles.SingleOrDefault(x => x.ActorId == role.ActorId && x.MovieId == role.MovieId);
+                if (checkrole == null)
+                {
+                    db.Roles.Add(role);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Duplicated Role Detected");
+                }
             }
-
-            ViewBag.ActorId = new SelectList(db.Actors, "ActorId", "FirstName", role.ActorId);
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", role.MovieId);
+            ViewBag.ActorId = new SelectList(db.Actors.OrderBy(x => x.LastName), "ActorId", "FullName", role.ActorId);
+            ViewBag.MovieId = new SelectList(db.Movies.OrderByDescending(x => x.ReleaseYear), "MovieId", "Name", role.MovieId);
             return View(role);
         }
 
@@ -75,8 +82,8 @@ namespace MoviesAspFinalProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ActorId = new SelectList(db.Actors, "ActorId", "FirstName", role.ActorId);
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", role.MovieId);
+            ViewBag.ActorId = new SelectList(db.Actors.OrderBy(x => x.LastName), "ActorId", "FullName", role.ActorId);
+            ViewBag.MovieId = new SelectList(db.Movies.OrderByDescending(x => x.ReleaseYear), "MovieId", "Name", role.MovieId);
             return View(role);
         }
 
@@ -85,16 +92,36 @@ namespace MoviesAspFinalProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RoleId,RoleName,CreateDate,EditDate,MovieId,ActorId")] Role role)
+        public ActionResult Edit([Bind(Include = "RoleId,RoleName,MovieId,ActorId")] Role role)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(role).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Role tmprole = db.Roles.Find(role.RoleId);
+                if (tmprole != null)
+                {
+                    Role checkmodel = db.Roles.SingleOrDefault(
+                        x => x.RoleId != role.RoleId &&
+                        x.RoleName == role.RoleName &&
+                        x.MovieId == role.MovieId &&
+                        x.ActorId == role.ActorId);
+                    if (checkmodel == null)
+                    {
+                        tmprole.ActorId = role.ActorId;
+                        tmprole.MovieId = role.MovieId;
+                        tmprole.RoleName = role.RoleName;
+                        tmprole.EditDate = DateTime.UtcNow;
+                        db.Entry(tmprole).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Duplicated Role Detected");
+                    }
+                }
             }
-            ViewBag.ActorId = new SelectList(db.Actors, "ActorId", "FirstName", role.ActorId);
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", role.MovieId);
+            ViewBag.ActorId = new SelectList(db.Actors.OrderBy(x => x.LastName), "ActorId", "FullName", role.ActorId);
+            ViewBag.MovieId = new SelectList(db.Movies.OrderByDescending(x => x.ReleaseYear), "MovieId", "Name", role.MovieId);
             return View(role);
         }
 
@@ -123,14 +150,6 @@ namespace MoviesAspFinalProject.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

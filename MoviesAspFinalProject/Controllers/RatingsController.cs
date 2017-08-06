@@ -11,140 +11,39 @@ using Microsoft.AspNet.Identity;
 
 namespace MoviesAspFinalProject.Controllers
 {
-    public class RatingsController : Controller
+    public class RatingsController : BaseController
     {
-        private DataContext db = new DataContext();
-
-        // GET: Ratings
-        public ActionResult Index()
-        {
-            var ratings = db.Ratings.Include(r => r.Movie).Include(r => r.User);
-            return View(ratings.ToList());
-        }
-
-        // GET: Ratings/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Rating rating = db.Ratings.Find(id);
-            if (rating == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rating);
-        }
-
-        // GET: Ratings/Create
-        public ActionResult Create()
-        {
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name");
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email");
-            return View();
-        }
-
-        // POST: Ratings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RatingId,UserId,MovieId,MovieRating,CreateDate,EditDate")] Rating rating)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Ratings.Add(rating);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", rating.MovieId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", rating.UserId);
-            return View(rating);
-        }
-
-        // GET: Ratings/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Rating rating = db.Ratings.Find(id);
-            if (rating == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", rating.MovieId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", rating.UserId);
-            return View(rating);
-        }
-
-        // POST: Ratings/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RatingId,UserId,MovieId,MovieRating,CreateDate,EditDate")] Rating rating)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(rating).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.MovieId = new SelectList(db.Movies, "MovieId", "Name", rating.MovieId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Email", rating.UserId);
-            return View(rating);
-        }
-
-        // GET: Ratings/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Rating rating = db.Ratings.Find(id);
-            if (rating == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rating);
-        }
-
-        // POST: Ratings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            Rating rating = db.Ratings.Find(id);
-            db.Ratings.Remove(rating);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        public ActionResult SetRating(string MovieId, int MovieRating)
+       
+        public Rating SetRating(string MovieId, int MovieRating)
         {
             Rating rating = new Rating();
             rating.MovieId = MovieId;
             rating.MovieRating = MovieRating;
             rating.UserId = User.Identity.GetUserId();
-
-            db.Ratings.Add(rating);
+            Rating checkrating = db.Ratings.SingleOrDefault(x => x.MovieId == rating.MovieId && x.UserId == rating.UserId);
+            if (checkrating == null)
+            {
+                db.Ratings.Add(rating);
+            }
+            else
+            {
+                checkrating.MovieRating = rating.MovieRating;
+                checkrating.EditDate = DateTime.UtcNow;
+                db.Entry(checkrating).State = EntityState.Modified;
+            }
             db.SaveChanges();
 
-            return RedirectToAction("Details", "Movies", new { id = MovieId });
+            rating = db.Ratings.Include(x => x.Movie).Include(x => x.Movie.Ratings).Include(x => x.User)
+                .SingleOrDefault(x=>x.RatingId == rating.RatingId);
+
+            return rating;
         }
 
-        protected override void Dispose(bool disposing)
+        [AllowAnonymous]
+        public PartialViewResult RatingsControl(string MovieId)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            Movie movie = db.Movies.Find(MovieId);
+            return PartialView("_RatingsControl", movie);
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAspFinalProject.Models
 {
@@ -19,8 +20,20 @@ namespace MoviesAspFinalProject.Models
             return userIdentity;
         }
 
+        [StringLength(100)]
+        public string FirstName { get; set; }
+
+        [StringLength(100)]
+        public string LastName { get; set; }
+
         [InverseProperty("User")]
         public virtual ICollection<Rating> Ratings { get; set; }
+    }
+
+    // new line
+    public class ApplicationRole : IdentityRole
+    {
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

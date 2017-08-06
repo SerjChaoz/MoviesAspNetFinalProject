@@ -41,7 +41,8 @@ namespace MoviesAspFinalProject.Migrations.DataContext
             {
                 FirstName = "Brad",
                 LastName = "Pit",
-                Age = 40,
+                BirthDay = DateTime.Parse("1963-12-18"),
+                DeathDay = DateTime.Parse("1900-1-1"),
                 Gender = "Male",
                 HasOskar = false
             });
@@ -50,22 +51,11 @@ namespace MoviesAspFinalProject.Migrations.DataContext
             {
                 FirstName = "Harrison",
                 LastName = "Ford",
-                Age = 60,
+                BirthDay = DateTime.Parse("1942-7-13"),
+                DeathDay = DateTime.Parse("1900-1-1"),
                 Gender = "Male",
                 HasOskar = true
             });
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
         }
     }
 }

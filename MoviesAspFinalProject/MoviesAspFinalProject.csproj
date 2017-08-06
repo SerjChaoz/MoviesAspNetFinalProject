@@ -181,6 +181,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActorsController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -197,14 +198,35 @@
     <Compile Include="Migrations.DataContext\201707280201063_AlterColumns.Designer.cs">
       <DependentUpon>201707280201063_AlterColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations.DataContext\201708060713546_AddedNotMappedProperties.cs" />
+    <Compile Include="Migrations.DataContext\201708060713546_AddedNotMappedProperties.Designer.cs">
+      <DependentUpon>201708060713546_AddedNotMappedProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.DataContext\201708062114215_RefactoredAge.cs" />
+    <Compile Include="Migrations.DataContext\201708062114215_RefactoredAge.Designer.cs">
+      <DependentUpon>201708062114215_RefactoredAge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations.DataContext\Configuration.cs" />
     <Compile Include="Migrations.Identity\201707280156356_InitialCreate.cs" />
     <Compile Include="Migrations.Identity\201707280156356_InitialCreate.Designer.cs">
       <DependentUpon>201707280156356_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations.Identity\201708060659373_AddedApplicationRole.cs" />
+    <Compile Include="Migrations.Identity\201708060659373_AddedApplicationRole.Designer.cs">
+      <DependentUpon>201708060659373_AddedApplicationRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.Identity\201708060704460_AddedNameColumnsToUser.cs" />
+    <Compile Include="Migrations.Identity\201708060704460_AddedNameColumnsToUser.Designer.cs">
+      <DependentUpon>201708060704460_AddedNameColumnsToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.Identity\201708062159179_RefactoredAge.cs" />
+    <Compile Include="Migrations.Identity\201708062159179_RefactoredAge.Designer.cs">
+      <DependentUpon>201708062159179_RefactoredAge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations.Identity\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Actor.cs" />
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -234,6 +256,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\deceased.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -248,6 +271,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\rolenamehiding.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -298,14 +322,11 @@
     <Content Include="Views\Roles\Details.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
-    <Content Include="Views\Ratings\Create.cshtml" />
-    <Content Include="Views\Ratings\Delete.cshtml" />
-    <Content Include="Views\Ratings\Details.cshtml" />
-    <Content Include="Views\Ratings\Edit.cshtml" />
-    <Content Include="Views\Ratings\Index.cshtml" />
+    <Content Include="Views\Ratings\_RatingsControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -320,8 +341,23 @@
     <EmbeddedResource Include="Migrations.DataContext\201707280201063_AlterColumns.resx">
       <DependentUpon>201707280201063_AlterColumns.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.DataContext\201708060713546_AddedNotMappedProperties.resx">
+      <DependentUpon>201708060713546_AddedNotMappedProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.DataContext\201708062114215_RefactoredAge.resx">
+      <DependentUpon>201708062114215_RefactoredAge.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations.Identity\201707280156356_InitialCreate.resx">
       <DependentUpon>201707280156356_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.Identity\201708060659373_AddedApplicationRole.resx">
+      <DependentUpon>201708060659373_AddedApplicationRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.Identity\201708060704460_AddedNameColumnsToUser.resx">
+      <DependentUpon>201708060704460_AddedNameColumnsToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.Identity\201708062159179_RefactoredAge.resx">
+      <DependentUpon>201708062159179_RefactoredAge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

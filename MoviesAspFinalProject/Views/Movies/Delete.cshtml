@@ -34,6 +34,19 @@
         <dd>
             @Html.DisplayFor(model => model.Budget)
         </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Actors)
+        </dt>
+            
+        <dd>
+            <ul>
+                @foreach (var actor in Model.Actors)
+                {
+                    <li>@actor.Actor.ToString()<p>Role Name: @actor.ToString()</p></li>
+                }
+            </ul>
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)

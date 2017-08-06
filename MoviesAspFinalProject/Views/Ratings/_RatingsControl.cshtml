@@ -1,0 +1,26 @@
+﻿@model MoviesAspFinalProject.Models.Movie
+
+@{
+    if (Model.Ratings.Count > 0)
+    {
+        <p>The overall rating for @Model.Name is @Model.OverallRating.ToString("F1")</p>
+    }
+    else
+    {
+        <p>Be the first to rate @Model.Name</p>
+    }
+}
+
+@{
+    if (!Request.IsAuthenticated)
+    {
+        <p>Register or Login now to rate @Model.Name</p>
+    }
+    else
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            <a href="#" name="MovieRating" data-movierating="@i" data-movieid="@Model.MovieId"><i class="glyphicon glyphicon-star@( Model.OverallRating < i ? "-empty" : "")"></i></a>
+        }
+    }
+}

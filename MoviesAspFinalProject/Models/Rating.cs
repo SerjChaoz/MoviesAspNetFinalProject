@@ -6,7 +6,7 @@ namespace MoviesAspFinalProject.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Rating
+    public partial class Rating : BaseModel
     {
 
         [Key]
@@ -27,13 +27,6 @@ namespace MoviesAspFinalProject.Models
 
         [Display(Name = "Movie Rating")]
         public decimal MovieRating { get; set; }
-
-        [Display(Name = "Create Date")]
-        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
-        public DateTime CreateDate { get; set; }
-
-        [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; } = DateTime.UtcNow;
-      
+              
     }
 }

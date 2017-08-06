@@ -6,7 +6,7 @@ namespace MoviesAspFinalProject.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Actor
+    public partial class Actor : BaseModel
     {
         public Actor()
         {
@@ -26,8 +26,64 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Full Name")]
+        public string FullName
+        {
+            get
+            {
+                return ToString();
+            }
+        }
+
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date of Birth")]
+        public DateTime BirthDay { get; set; }
+
+        [Display(Name = "Date of Death")]
+        [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DeathDay { get; set; } = DateTime.Parse("1900-1-1");
+
+        [NotMapped]
         [Display(Name = "Age")]
-        public int Age { get; set; }
+        public string Age {
+            get
+            {
+                DateTime now;
+                int age;
+                string result = "";
+
+                if (DeathDay.CompareTo(BirthDay) < 0)
+                {
+                    now = DateTime.UtcNow;
+                }
+                else
+                {
+                    now = DeathDay;
+                    result = " (Deceased)";
+                }
+
+                if (now.CompareTo(BirthDay) <= 0)
+                {
+                    return "";
+                }
+
+                age = now.Year - BirthDay.Year;
+
+                if (now.Month == BirthDay.Month && now.Day == BirthDay.Day && DeathDay.CompareTo(BirthDay) < 0)
+                {
+                    result = " Happy Birthday!";
+                }
+                else if(now.Month < BirthDay.Month || now.Month == BirthDay.Month && now.Day < BirthDay.Day)
+                {
+                    age--;
+                }
+                
+                result = age.ToString() + result;
+                return result;
+            }
+        }
 
         [Required]
         [Display(Name = "Gender")]
@@ -36,18 +92,11 @@ namespace MoviesAspFinalProject.Models
 
         [Display(Name = "Has Oskar")]
         public bool HasOskar { get; set; }
-
-        [Display(Name = "Create Date")]
-        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
-        public DateTime CreateDate { get; set; }
-
-        [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; } = DateTime.UtcNow;
-
+        
         [Display(Name = "Movies")]
         [InverseProperty("Actor")]
         public virtual ICollection<Role> Movies { get; set; } = new HashSet<Role>();
-
+        
         public override string ToString()
         {
             return String.Format("{0} {1}", FirstName, LastName);

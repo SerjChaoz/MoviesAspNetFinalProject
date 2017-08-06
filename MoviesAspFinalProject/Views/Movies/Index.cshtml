@@ -6,9 +6,12 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (Request.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -21,10 +24,10 @@
             @Html.DisplayNameFor(model => model.Budget)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
+            @Html.DisplayNameFor(model => model.Actors)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EditDate)
+            @Html.DisplayNameFor(model => model.Ratings)
         </th>
         <th></th>
     </tr>
@@ -41,15 +44,20 @@
             @Html.DisplayFor(modelItem => item.Budget)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
+            @Html.DisplayFor(modelItem => item.Actors.Count)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EditDate)
+            @item.OverallRating.ToString("F1")
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MovieId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MovieId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MovieId })
+            @Html.ActionLink("Details", "Details", new { id = item.MovieId })
+            @if (Request.IsAuthenticated)
+            {
+                <span> | </span>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MovieId });
+                <span> | </span>
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieId });
+            }
         </td>
     </tr>
 }

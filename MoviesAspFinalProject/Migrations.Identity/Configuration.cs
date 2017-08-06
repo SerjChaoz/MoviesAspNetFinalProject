@@ -16,6 +16,8 @@ namespace MoviesAspFinalProject.Migrations.Identity
 
         protected override void Seed(MoviesAspFinalProject.Models.ApplicationDbContext context)
         {
+            // context.Roles.AddOrUpdate(x => x.Name, new ApplicationRole { Name = "Admin" });
+            //context.Roles.AddOrUpdate(x => x.Name, new ApplicationRole { Name = "User" });
 
             //  This method will be called after migrating to the latest version.
 

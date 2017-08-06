@@ -5,8 +5,9 @@ namespace MoviesAspFinalProject.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
 
-    public partial class Movie
+    public partial class Movie : BaseModel
     {
         public Movie()
         {
@@ -21,6 +22,7 @@ namespace MoviesAspFinalProject.Models
         [StringLength(250)]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Release Year")]
         public int ReleaseYear { get; set; }
 
@@ -28,13 +30,7 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Budget")]
         [StringLength(128)]
         public string Budget { get; set; }
-
-        [Display(Name = "Create Date")]
-        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
-        public DateTime CreateDate { get; set; }
-
-        [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; } = DateTime.UtcNow;
+        
 
         [Display(Name = "Actors")]
         [InverseProperty("Movie")]
@@ -43,6 +39,19 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Ratings")]
         [InverseProperty("Movie")]
         public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
+
+        [NotMapped]
+        public decimal OverallRating
+        {
+            get
+            {
+                if (Ratings.Count > 0)
+                {
+                    return Ratings.Average(x => x.MovieRating);
+                }
+                return 0;
+            }
+        }
 
         public override string ToString()
         {

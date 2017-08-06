@@ -6,13 +6,16 @@
 
 <h2>Index</h2>
 
-<p>
+@if (Request.IsAuthenticated)
+{
+    <p>
     @Html.ActionLink("Create New", "Create")
-</p>
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Actor.FirstName)
+            @Html.DisplayNameFor(model => model.Actor.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Movie.Name)
@@ -20,19 +23,13 @@
         <th>
             @Html.DisplayNameFor(model => model.RoleName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EditDate)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Actor.FirstName)
+            @Html.DisplayFor(modelItem => item.Actor.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Movie.Name)
@@ -41,15 +38,14 @@
             @Html.DisplayFor(modelItem => item.RoleName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EditDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RoleId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RoleId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RoleId })
+            @Html.ActionLink("Details", "Details", new { id=item.RoleId })
+            @if (Request.IsAuthenticated)
+            {
+                <span> | </span>
+                @Html.ActionLink("Edit", "Edit", new { id = item.RoleId });
+                <span> | </span>
+                @Html.ActionLink("Delete", "Delete", new { id = item.RoleId });
+            }
         </td>
     </tr>
 }

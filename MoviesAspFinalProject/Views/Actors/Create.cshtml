@@ -32,10 +32,27 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Deceased">Deceased?</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <input class="check-box" name="Deceased" type="checkbox">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" name="DeathDay" style="display:none">
+            @Html.LabelFor(model => model.DeathDay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DeathDay, new { htmlAttributes = new { @class = "form-control", @Value = "January 01, 1900" } })
+                @Html.ValidationMessageFor(model => model.DeathDay, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -58,10 +75,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EditDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Movies, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EditDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditDate, "", new { @class = "text-danger" })
+                <div class="checkbox">
+                    <ul>
+                        @foreach (var item in (MultiSelectList)ViewBag.Movies)
+                        {
+                            <li><input type="checkbox" value="@item.Value" name="Ids" id="@item.Value" @(item.Selected ? "checked" : "") /> @item.Text
+                            <p>Role Name: <input type="text" value="" name="RoleNames" id="r_@item.Value" @(!item.Selected ? "disabled" : "")/></p></li>
+                        }
+                    </ul>
+                    @Html.ValidationMessageFor(model => model.Movies, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -79,4 +104,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/rolenamehiding.js"></script>
+    <script src="~/Scripts/deceased.js"></script>
 }

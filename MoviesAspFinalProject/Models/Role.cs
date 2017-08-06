@@ -6,7 +6,7 @@ namespace MoviesAspFinalProject.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Role
+    public partial class Role : BaseModel
     {
         [Key]
         [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
@@ -16,14 +16,7 @@ namespace MoviesAspFinalProject.Models
         [Display(Name = "Role Name")]
         [StringLength(128)]
         public string RoleName { get; set; }
-
-        [Display(Name = "Create Date")]
-        [DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.Identity)]
-        public DateTime CreateDate { get; set; }
-
-        [Display(Name = "Edit Date")]
-        public DateTime EditDate { get; set; } = DateTime.UtcNow;
-
+        
         [Required]
         [Display(Name = "Movie")]
         [StringLength(128)]
