@@ -37,13 +37,18 @@ namespace MoviesAspFinalProject.Models
         }
 
         [Required]
+        [ValidDate]
+        [Column(TypeName = "datetime2")]
         [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Birth")]
         public DateTime BirthDay { get; set; }
 
+        [Required]
+        [ValidDate]
+        [Column(TypeName = "datetime2")]
         [Display(Name = "Date of Death")]
         [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DeathDay { get; set; } = DateTime.Parse("1900-1-1");
+        public DateTime DeathDay { get; set; } = DateTime.MinValue;
 
         [NotMapped]
         [Display(Name = "Age")]
@@ -100,6 +105,18 @@ namespace MoviesAspFinalProject.Models
         public override string ToString()
         {
             return String.Format("{0} {1}", FirstName, LastName);
+        }
+    }
+
+    internal class ValidDateAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (DateTime.UtcNow.CompareTo((DateTime)value) < 0)
+            {
+                return new ValidationResult("Date can't be in the future.");
+            }
+            return ValidationResult.Success;
         }
     }
 }

@@ -206,6 +206,10 @@
     <Compile Include="Migrations.DataContext\201708062114215_RefactoredAge.Designer.cs">
       <DependentUpon>201708062114215_RefactoredAge.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations.DataContext\201708141928249_ChangeDateTimetoDateTime2.cs" />
+    <Compile Include="Migrations.DataContext\201708141928249_ChangeDateTimetoDateTime2.Designer.cs">
+      <DependentUpon>201708141928249_ChangeDateTimetoDateTime2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations.DataContext\Configuration.cs" />
     <Compile Include="Migrations.Identity\201707280156356_InitialCreate.cs" />
     <Compile Include="Migrations.Identity\201707280156356_InitialCreate.Designer.cs">
@@ -222,6 +226,10 @@
     <Compile Include="Migrations.Identity\201708062159179_RefactoredAge.cs" />
     <Compile Include="Migrations.Identity\201708062159179_RefactoredAge.Designer.cs">
       <DependentUpon>201708062159179_RefactoredAge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.Identity\201708141929475_ChangeDateTimetoDateTime2.cs" />
+    <Compile Include="Migrations.Identity\201708141929475_ChangeDateTimetoDateTime2.Designer.cs">
+      <DependentUpon>201708141929475_ChangeDateTimetoDateTime2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations.Identity\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -347,6 +355,9 @@
     <EmbeddedResource Include="Migrations.DataContext\201708062114215_RefactoredAge.resx">
       <DependentUpon>201708062114215_RefactoredAge.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.DataContext\201708141928249_ChangeDateTimetoDateTime2.resx">
+      <DependentUpon>201708141928249_ChangeDateTimetoDateTime2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations.Identity\201707280156356_InitialCreate.resx">
       <DependentUpon>201707280156356_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
@@ -358,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations.Identity\201708062159179_RefactoredAge.resx">
       <DependentUpon>201708062159179_RefactoredAge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.Identity\201708141929475_ChangeDateTimetoDateTime2.resx">
+      <DependentUpon>201708141929475_ChangeDateTimetoDateTime2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

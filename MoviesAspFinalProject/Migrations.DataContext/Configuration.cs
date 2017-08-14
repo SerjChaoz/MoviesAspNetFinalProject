@@ -42,7 +42,7 @@ namespace MoviesAspFinalProject.Migrations.DataContext
                 FirstName = "Brad",
                 LastName = "Pit",
                 BirthDay = DateTime.Parse("1963-12-18"),
-                DeathDay = DateTime.Parse("1900-1-1"),
+                DeathDay = DateTime.MinValue,
                 Gender = "Male",
                 HasOskar = false
             });
@@ -52,7 +52,7 @@ namespace MoviesAspFinalProject.Migrations.DataContext
                 FirstName = "Harrison",
                 LastName = "Ford",
                 BirthDay = DateTime.Parse("1942-7-13"),
-                DeathDay = DateTime.Parse("1900-1-1"),
+                DeathDay = DateTime.MinValue,
                 Gender = "Male",
                 HasOskar = true
             });

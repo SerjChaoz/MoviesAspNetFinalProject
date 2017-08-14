@@ -6,7 +6,7 @@
     }
     else {
         deathform.hide();
-        deathinput.val("January 01, 1900");
-        deathinput.attr("value", "January 01, 1900");
+        deathinput.val("January 01, 0001");
+        deathinput.attr("value", "January 01, 0001");
     }
 })

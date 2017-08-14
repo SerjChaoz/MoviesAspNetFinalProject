@@ -53,36 +53,47 @@ namespace MoviesAspFinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                Movie checkmodel = db.Movies.SingleOrDefault(x => x.Name == movie.Name && x.ReleaseYear == movie.ReleaseYear);
-                if (checkmodel == null)
+                bool validnames = true;
+                foreach (string name in RoleNames)
                 {
-                    db.Movies.Add(movie);
-                    db.SaveChanges();
-
-                    if (Ids != null)
+                    if (name == "")
                     {
-                        for (int i = 0; i < Ids.Length; i++)
+                        validnames = false;
+                    }
+                }
+                if (validnames)
+                {
+                    Movie checkmodel = db.Movies.SingleOrDefault(x => x.Name == movie.Name && x.ReleaseYear == movie.ReleaseYear);
+                    if (checkmodel == null)
+                    {
+                        db.Movies.Add(movie);
+                        db.SaveChanges();
+
+                        if (Ids != null)
                         {
-                            Actor actor = new Actor { ActorId = Ids[i] };
-                            db.Actors.Attach(actor);
-                            Role role = new Role();
+                            for (int i = 0; i < Ids.Length; i++)
+                            {
+                                Actor actor = new Actor { ActorId = Ids[i] };
+                                db.Actors.Attach(actor);
+                                Role role = new Role();
 
-                            role.Movie = movie;
-                            role.Actor = actor;
-                            role.RoleName = RoleNames[i];
+                                role.Movie = movie;
+                                role.Actor = actor;
+                                role.RoleName = RoleNames[i];
 
-                            db.Roles.Add(role);
+                                db.Roles.Add(role);
+                            }
+
+                            db.Entry(movie).State = EntityState.Modified;
+                            db.SaveChanges();
                         }
 
-                        db.Entry(movie).State = EntityState.Modified;
-                        db.SaveChanges();
+                        return RedirectToAction("Index");
                     }
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Duplicated Actor Detected");
+                    else
+                    {
+                        ModelState.AddModelError("", "Duplicated Actor Detected");
+                    }
                 }
             }
             ViewBag.Actors = new MultiSelectList(db.Actors.ToList().OrderBy(x => x.LastName), "ActorId", "FullName", Ids);
@@ -114,58 +125,69 @@ namespace MoviesAspFinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                Movie tmpmodel = db.Movies.Find(movie.MovieId);
-                if (tmpmodel != null)
+                bool validnames = true;
+                foreach(string name in RoleNames)
                 {
-                    Movie checkmodel = db.Movies.SingleOrDefault(
-                        x => x.Name == movie.Name &&
-                        x.ReleaseYear == movie.ReleaseYear &&
-                        x.Budget == movie.Budget &&
-                        x.MovieId != movie.MovieId);
-                    if (checkmodel == null)
+                    if (name == "")
                     {
-                        tmpmodel.Name = movie.Name;
-                        tmpmodel.ReleaseYear = movie.ReleaseYear;
-                        tmpmodel.Budget = movie.Budget;
-                        tmpmodel.EditDate = DateTime.UtcNow;
-
-                        db.Entry(tmpmodel).State = EntityState.Modified;
-
-                        var removeItems = tmpmodel.Actors.Where(x => !Ids.Contains(x.ActorId)).ToList();
-
-                        foreach (var removeItem in removeItems)
+                        validnames = false;
+                    }
+                }
+                if (validnames)
+                {
+                    Movie tmpmodel = db.Movies.Find(movie.MovieId);
+                    if (tmpmodel != null)
+                    {
+                        Movie checkmodel = db.Movies.SingleOrDefault(
+                            x => x.Name == movie.Name &&
+                            x.ReleaseYear == movie.ReleaseYear &&
+                            x.Budget == movie.Budget &&
+                            x.MovieId != movie.MovieId);
+                        if (checkmodel == null)
                         {
-                            db.Entry(removeItem).State = EntityState.Deleted;
-                        }
+                            tmpmodel.Name = movie.Name;
+                            tmpmodel.ReleaseYear = movie.ReleaseYear;
+                            tmpmodel.Budget = movie.Budget;
+                            tmpmodel.EditDate = DateTime.UtcNow;
 
-                        if (Ids != null)
-                        {
-                            for (int i = 0; i < Ids.Length; i++)
+                            db.Entry(tmpmodel).State = EntityState.Modified;
+
+                            var removeItems = (Ids == null ? tmpmodel.Actors.ToList() : tmpmodel.Actors.Where(x => !Ids.Contains(x.ActorId)).ToList());
+
+                            foreach (var removeItem in removeItems)
                             {
-                                if (!tmpmodel.Actors.Select(x => x.ActorId).Contains(Ids[i]))
-                                {
-                                    Role role = new Role();
-                                    role.MovieId = tmpmodel.MovieId;
-                                    role.ActorId = Ids[i];
-                                    role.RoleName = RoleNames[i];
+                                db.Entry(removeItem).State = EntityState.Deleted;
+                            }
 
-                                    db.Roles.Add(role);
-                                }
-                                else if (tmpmodel.Actors.Single(x => x.ActorId == Ids[i]).RoleName != RoleNames[i])
+                            if (Ids != null)
+                            {
+                                for (int i = 0; i < Ids.Length; i++)
                                 {
-                                    Role tmprole = db.Roles.Find(tmpmodel.Actors.Single(x => x.MovieId == Ids[i]).RoleId);
-                                    tmprole.RoleName = RoleNames[i];
-                                    tmprole.EditDate = DateTime.UtcNow;
-                                    db.Entry(tmprole).State = EntityState.Modified;
+                                    if (!tmpmodel.Actors.Select(x => x.ActorId).Contains(Ids[i]))
+                                    {
+                                        Role role = new Role();
+                                        role.MovieId = tmpmodel.MovieId;
+                                        role.ActorId = Ids[i];
+                                        role.RoleName = RoleNames[i];
+
+                                        db.Roles.Add(role);
+                                    }
+                                    else if (tmpmodel.Actors.Single(x => x.ActorId == Ids[i]).RoleName != RoleNames[i])
+                                    {
+                                        Role tmprole = db.Roles.Find(tmpmodel.Actors.Single(x => x.ActorId == Ids[i]).RoleId);
+                                        tmprole.RoleName = RoleNames[i];
+                                        tmprole.EditDate = DateTime.UtcNow;
+                                        db.Entry(tmprole).State = EntityState.Modified;
+                                    }
                                 }
                             }
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
                         }
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Duplicated Movie Detected");
+                        else
+                        {
+                            ModelState.AddModelError("", "Duplicated Movie Detected");
+                        }
                     }
                 }
             }
