@@ -112,9 +112,13 @@ namespace MoviesAspFinalProject.Models
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return new ValidationResult("Must be a valid date.");
+            }
             if (DateTime.UtcNow.CompareTo((DateTime)value) < 0)
             {
-                return new ValidationResult("Date can't be in the future.");
+                return new ValidationResult("Date cannot be in the future.");
             }
             return ValidationResult.Success;
         }

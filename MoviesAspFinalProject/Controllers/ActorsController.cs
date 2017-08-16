@@ -53,17 +53,21 @@ namespace MoviesAspFinalProject.Controllers
             if (ModelState.IsValid)
             {
                 bool validnames = true;
-                foreach (string name in RoleNames)
+                if (RoleNames != null)
                 {
-                    if (name == "")
+                    foreach (string name in RoleNames)
                     {
-                        validnames = false;
+                        if (name == "")
+                        {
+                            validnames = false;
+                        }
                     }
                 }
                 if (validnames)
                 {
                     Actor checkmodel = db.Actors.SingleOrDefault(x => x.LastName == model.LastName
-                                                && x.FirstName == model.FirstName && x.BirthDay == model.BirthDay);
+                                                && x.FirstName == model.FirstName && x.BirthDay == model.BirthDay
+                                                && x.Gender == model.Gender);
                     if (checkmodel == null)
                     {
                         db.Actors.Add(model);
@@ -94,6 +98,17 @@ namespace MoviesAspFinalProject.Controllers
                     {
                         ModelState.AddModelError("", "Duplicated Actor Detected");
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Role Name");
+                }
+            }
+            if (Ids != null)
+            {
+                for (int i = 0; i < Ids.Length; i++)
+                {
+                    model.Movies.Add(new Role { MovieId = Ids[i], RoleName = RoleNames[i] });
                 }
             }
             ViewBag.Movies = new MultiSelectList(db.Movies.ToList().OrderByDescending(x => x.ReleaseYear), "MovieId", "Name", Ids);
@@ -127,11 +142,14 @@ namespace MoviesAspFinalProject.Controllers
             if (ModelState.IsValid)
             {
                 bool validnames = true;
-                foreach (string name in RoleNames)
+                if (RoleNames != null)
                 {
-                    if (name == "")
+                    foreach (string name in RoleNames)
                     {
-                        validnames = false;
+                        if (name == "")
+                        {
+                            validnames = false;
+                        }
                     }
                 }
                 if (validnames)
@@ -144,8 +162,6 @@ namespace MoviesAspFinalProject.Controllers
                             x.LastName == model.LastName &&
                             x.Gender == model.Gender &&
                             x.BirthDay == model.BirthDay &&
-                            x.DeathDay == model.DeathDay &&
-                            x.HasOskar == model.HasOskar &&
                             x.ActorId != model.ActorId);
                         if (checkmodel == null)
                         {
@@ -196,6 +212,17 @@ namespace MoviesAspFinalProject.Controllers
                             ModelState.AddModelError("", "Duplicated Actor Detected");
                         }
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Role Name");
+                }
+            }
+            if (Ids != null)
+            {
+                for (int i = 0; i < Ids.Length; i++)
+                {
+                    model.Movies.Add(new Role { MovieId = Ids[i], RoleName = RoleNames[i] });
                 }
             }
             ViewBag.Movies = new MultiSelectList(db.Movies.ToList().OrderByDescending(x => x.ReleaseYear), "MovieId", "Name", Ids);

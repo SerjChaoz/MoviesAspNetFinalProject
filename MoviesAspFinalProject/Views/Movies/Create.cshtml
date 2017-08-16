@@ -48,7 +48,7 @@
                         {
                             <li>
                                 <input type="checkbox" value="@item.Value" name="Ids" id="@item.Value" @(item.Selected ? "checked" : "") /> @item.Text
-                                <p>Role Name: <input type="text" value="" name="RoleNames" id="r_@item.Value" @(!item.Selected ? "disabled" : "") required /></p>
+                                <p>Role Name: <input type="text" value="@(item.Selected ? Model.Actors.SingleOrDefault(x => x.ActorId == item.Value).RoleName : "")" name="RoleNames" id="r_@item.Value" @(!item.Selected ? "disabled" : "") required /></p>
                             </li>
                         }
                     </ul>

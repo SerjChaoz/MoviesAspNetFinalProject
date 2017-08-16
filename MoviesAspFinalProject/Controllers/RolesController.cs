@@ -101,7 +101,6 @@ namespace MoviesAspFinalProject.Controllers
                 {
                     Role checkmodel = db.Roles.SingleOrDefault(
                         x => x.RoleId != role.RoleId &&
-                        x.RoleName == role.RoleName &&
                         x.MovieId == role.MovieId &&
                         x.ActorId == role.ActorId);
                     if (checkmodel == null)
@@ -146,6 +145,10 @@ namespace MoviesAspFinalProject.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             Role role = db.Roles.Find(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
             db.Roles.Remove(role);
             db.SaveChanges();
             return RedirectToAction("Index");

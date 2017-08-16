@@ -54,11 +54,14 @@ namespace MoviesAspFinalProject.Controllers
             if (ModelState.IsValid)
             {
                 bool validnames = true;
-                foreach (string name in RoleNames)
+                if (RoleNames != null)
                 {
-                    if (name == "")
+                    foreach (string name in RoleNames)
                     {
-                        validnames = false;
+                        if (name == "")
+                        {
+                            validnames = false;
+                        }
                     }
                 }
                 if (validnames)
@@ -95,6 +98,17 @@ namespace MoviesAspFinalProject.Controllers
                         ModelState.AddModelError("", "Duplicated Actor Detected");
                     }
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Role Name");
+                }
+            }
+            if (Ids != null)
+            {
+                for (int i = 0; i < Ids.Length; i++)
+                {
+                    movie.Actors.Add(new Role { ActorId = Ids[i], RoleName = RoleNames[i] });
+                }
             }
             ViewBag.Actors = new MultiSelectList(db.Actors.ToList().OrderBy(x => x.LastName), "ActorId", "FullName", Ids);
             return View(movie);
@@ -126,11 +140,14 @@ namespace MoviesAspFinalProject.Controllers
             if (ModelState.IsValid)
             {
                 bool validnames = true;
-                foreach(string name in RoleNames)
+                if (RoleNames != null)
                 {
-                    if (name == "")
+                    foreach (string name in RoleNames)
                     {
-                        validnames = false;
+                        if (name == "")
+                        {
+                            validnames = false;
+                        }
                     }
                 }
                 if (validnames)
@@ -189,6 +206,17 @@ namespace MoviesAspFinalProject.Controllers
                             ModelState.AddModelError("", "Duplicated Movie Detected");
                         }
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Role Name");
+                }
+            }
+            if (Ids != null)
+            {
+                for (int i = 0; i < Ids.Length; i++)
+                {
+                    movie.Actors.Add(new Role { ActorId = Ids[i], RoleName = RoleNames[i] });
                 }
             }
             ViewBag.Actors = new MultiSelectList(db.Actors.ToList().OrderBy(x => x.LastName), "ActorId", "FullName", Ids);
