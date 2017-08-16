@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+.navbar-inverse {
+    background: pink;
+}
+.navbar-inverse .navbar-brand {
+    color: #222;
+}
