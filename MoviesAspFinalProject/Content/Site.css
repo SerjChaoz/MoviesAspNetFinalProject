@@ -25,6 +25,16 @@ textarea {
 .navbar-inverse {
     background: pink;
 }
-.navbar-inverse .navbar-brand {
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
     color: #222;
+}
+table td a, p a, .body-content div > a, input[type="submit"] {
+    padding: 5px 10px;
+    background: #222;
+    color: pink;
+    border-radius: 10px;
+}
+table td a:hover, p a:hover, .body-content div > a:hover {
+    text-decoration: none;
+    color: #fff;
 }
