@@ -231,7 +231,7 @@ namespace MoviesAspFinalProject.Controllers
             {
                 db.Roles.Remove(item);
             }
-
+            
             db.Actors.Remove(model);
             var deleted = db.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
             db.SaveChanges();

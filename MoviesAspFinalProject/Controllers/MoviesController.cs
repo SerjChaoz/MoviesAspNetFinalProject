@@ -216,7 +216,21 @@ namespace MoviesAspFinalProject.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             Movie movie = db.Movies.Find(id);
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+            foreach (var item in movie.Actors.ToList())
+            {
+                db.Roles.Remove(item);
+            }
+            List<Rating> ratings = db.Ratings.Where(x => x.MovieId == movie.MovieId).ToList();
+            foreach (var item in ratings)
+            {
+                db.Ratings.Remove(item);
+            }
             db.Movies.Remove(movie);
+            var deleted = db.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
