@@ -32,10 +32,10 @@ namespace MoviesAspFinalProject.Models
 
         [ForeignKey("MovieId")]
         public virtual Movie Movie { get; set; }
-
+        
         public override string ToString()
         {
-            return String.Format("{0}", RoleName);
+            return String.Format("{0} as {1} in {2}", Actor.FullName, RoleName, Movie.Name);
         }
     }
 }
