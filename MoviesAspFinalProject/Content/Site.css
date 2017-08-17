@@ -38,3 +38,6 @@ table td a:hover, p a:hover, .body-content div > a:hover {
     text-decoration: none;
     color: #fff;
 }
+#RatingsControl a,#RatingsControl a:hover,#RatingsControl a i {
+    color:pink;
+}
